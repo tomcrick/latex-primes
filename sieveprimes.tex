@@ -1,0 +1,26 @@
+% inspired by:
+% http://tex.stackexchange.com/questions/134305/how-to-produce-a-list-of-prime-numbers-in-latex
+
+\documentclass{article}
+
+\makeatletter
+\def\primes#1#2{{%
+  \def\comma{\def\comma{, }}%
+  \count@\@ne\@tempcntb#2\relax\@curtab#1\relax
+  \@primes}}
+\def\@primes{\loop\advance\count@\@ne
+\expandafter\ifx\csname p-\the\count@\endcsname\relax
+\ifnum\@tempcntb<\count@\else
+  \ifnum\count@<\@curtab\else\comma\the\count@\fi\fi\else\repeat
+\@tempcnta\count@\loop\advance\@tempcnta\count@
+\expandafter\let\csname p-\the\@tempcnta\endcsname\@ne
+\ifnum\@tempcnta<\@tempcntb\repeat
+\ifnum\@tempcntb>\count@\expandafter\@primes\fi}
+\makeatother   
+
+\begin{document}
+
+%usage
+The primes from 1 to 100 are:~\primes{1}{100}
+
+\end{document}
